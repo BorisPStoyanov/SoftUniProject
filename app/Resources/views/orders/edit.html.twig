@@ -1,0 +1,12 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Update" class="btn btn-primary"/>
+    {{ form_end(edit_form) }}
+
+    <hr>
+    <a href="{{ path('orders_index') }}" class="btn btn-success">View all Orders</a>
+{% endblock %}
+

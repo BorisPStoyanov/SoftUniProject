@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
+
+
+    {% block stylesheets %}{% endblock %}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('product_list') }}">Web Shop</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{ path('product_list') }}">Home</a>
+                </li>
+
+                {% if not user.name is defined %}
+                <li>
+                    <a href="{{ path('user_register') }}">Register</a>
+                </li>
+                <li>
+                    <a href="{{ path('user_login') }}">Login</a>
+                </li>
+                {% endif %}
+                {% if user.name is defined %}
+                    <li>
+                        <a href="{{ path('cart_view') }}">Cart</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('orders_show_for_user', {'id': user.id}) }}">My Orders</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_logout') }}">Logout</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="{{ path('admin_category_index') }}">Admin</a>
+                        </li>
+                    {% endif %}
+                    <li> <a href="{{ path('orders_show_for_user', {'id': user.id}) }}">Hello <strong>{{ user.name }}</strong> !</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container main-page">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Web Shop</p>
+            <div class="list-group">
+                {% set catid = 0 %}
+                {% if product is defined %}
+                    {% set catid = product.categoryId %}
+                {% elseif category_id is defined %}
+                    {% set catid = category_id %}
+                {% endif %}
+
+                {{ render(controller(
+                'AppBundle:Category:getCategoryMenu',
+                { 'category_id': catid }
+                )) }}
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row carousel-holder">
+                {% block carousel %}
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="{{ asset('img/webshop_banner.jpg') }}" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3>WebShop</h3>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="{{ asset('img/webshop_banner_2.jpg') }}" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3>WebShop</h3>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="{{ asset('img/webshop_banner_3.jpg') }}" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3>WebShop</h3>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="{{ asset('img/webshop_banner_4.jpg') }}" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h3>WebShop</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% if app.session.flashBag.has('success') %}
+                        <div class="alert alert-success">
+                            {% for message in app.session.flashBag.get('success') %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if app.session.flashBag.has('error') %}
+                        <div class="alert alert-danger">
+                            {% for message in app.session.flashBag.get('error') %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<div class="container main-page">
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; WebShop 2017</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<!-- /.container -->
+
+<!-- jQuery -->
+<script src="{{ asset('js/jquery.js') }}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+{% block javascripts %}{% endblock %}
+</body>
+
+</html>

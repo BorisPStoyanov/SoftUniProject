@@ -1,0 +1,49 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Products list</h1>
+    <a href="{{ path('product_new') }}" class="btn btn-primary">Create a new product</a>
+    <hr>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Category</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Promotion Price</th>
+            <th>In Stock</th>
+            <th>Datecreated</th>
+            <th>Dateupdated</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.description |slice (0, 150) }}</td>
+                <td><img src="/images/product/{{ product.image }}" width="60"/></td>
+                <td>{{ product.price }}</td>
+                <td>{{ calc.calculate(product) }}</td>
+                <td>{{ product.stock.quantity }}</td>
+                <td>{% if product.dateCreated %}{{ product.dateCreated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if product.dateUpdated %}{{ product.dateUpdated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="col-md-1">
+                    <a href="{{ path('product_show', { 'id': product.id }) }}" class="btn btn-success">show</a>
+                    {% if user and (user.id == product.user.id  or is_granted('ROLE_ADMIN')) %}
+                        <a href="{{ path('product_edit', { 'id': product.id }) }}" class="btn btn-primary">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

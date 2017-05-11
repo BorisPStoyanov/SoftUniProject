@@ -1,0 +1,13 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Promotion edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+    <input type="submit" value="Update"  class="btn btn-primary"/>
+    {{ form_end(edit_form) }}
+
+    <hr>
+    <a href="{{ path('admin_promotion_index') }}" class="btn btn-success">Back to the list</a>
+{% endblock %}

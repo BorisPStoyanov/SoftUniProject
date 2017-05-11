@@ -1,0 +1,18 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Product edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ quantity }}" class="form-control"/>
+        </div>
+        <input type="submit" value="Update" class="btn btn-primary" />
+    {{ form_end(edit_form) }}
+
+    <hr>
+    <a href="{{ path('product_index') }}" class="btn btn-success">Back to the list</a>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{#{% block stylesheets %}#}
+    {#<link href="{{ asset('css/shop-item.css') }}" rel="stylesheet">#}
+{#{% endblock %}#}
+
+{% block title %}{{ 'Cart' }}{% endblock %}
+
+{% block body %}
+    <h2> Your Cart
+        {% if (cart.total <= 0.0) %}
+            {{ " is empty" }}
+        {% endif %}
+    </h2>
+
+    <hr>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Sum</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart.items %}
+            <tr>
+                <th>
+                    <img style="width: 60px; height: auto" class="img-responsive"
+                         src="{{ '/images/product/'~item.product.image }}" alt="{{ item.product.title }}">
+                </th>
+                <th> {{ item.product.title }}</th>
+                <th> {{ item.product.price }}</th>
+                <th>{{ item.quantity }}</th>
+                <th>{{ item.itemPrice }}</th>
+                <th>
+                    <form method="post" action="{{ path('cart_add_product') }}" style="display: inline;">
+                        <input type="hidden" name="id" value="{{ item.product.id }}"/>
+                        <input type="hidden" name="quantity" value="-1"/>
+                        <button type="submit" class="btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </form>
+                    <form method="post" action="{{ path('cart_add_product') }}" style="display: inline;">
+                        <input type="hidden" name="id" value="{{ item.product.id }}"/>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </form>
+
+                </th>
+            </tr>
+            {#{{ dump(item) }}#}
+        {% endfor %}
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Total</th>
+            <th>{{ cart.total }} BGN</th>
+            <th></th>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ path('product_list') }}" class="btn btn-success">Back to Shop</a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('cart_checkout') }}" class="btn btn-primary">Checkout</a>
+        </div>
+        <div class="col-md-2">
+            {% if (cart.total > 0.0) %}
+                <form action="{{ path('cart_empty') }}" method="post">
+
+                    <button type="submit" class="btn btn-danger">Empty Cart</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

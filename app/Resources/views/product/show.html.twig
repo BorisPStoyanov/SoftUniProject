@@ -1,0 +1,56 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Product</h1>
+
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ product.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ product.title }}</td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>{{ product.category.name }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ product.description }}</td>
+        </tr>
+        <tr>
+            <th>Image</th>
+            <td><img src="/images/product/{{ product.image }}" width="300"></td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ product.price }} BGN</td>
+        </tr>
+        <tr>
+            <th>In Stock</th>
+            <td>{{ product.stock.quantity }}</td>
+        </tr>
+        <tr>
+            <th>Created at</th>
+            <td>{% if product.dateCreated %}{{ product.dateCreated|date('Y-m-d H:i:s') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Updated at</th>
+            <td>{% if product.dateUpdated %}{{ product.dateUpdated|date('Y-m-d H:i:s') }}{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_edit', { 'id': product.id }) }}" class="btn btn-primary">Edit</a>
+    <div class="right" style="float:right">
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Delete" class="btn btn-danger">
+    {{ form_end(delete_form) }}
+    </div>
+    <hr>
+    <a href="{{ path('product_index') }}" class="btn btn-success">Back to the list</a>
+
+{% endblock %}

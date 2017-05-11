@@ -1,0 +1,17 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Category creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create"  class="btn btn-primary"/>
+    {{ form_end(form) }}
+
+    <hr>
+    <div class="row">
+        <div class="col-md-1">
+            <a href="{{ path('admin_category_index') }}" class="btn btn-success">Back to the list</a>
+        </div>
+    </div>
+{% endblock %}

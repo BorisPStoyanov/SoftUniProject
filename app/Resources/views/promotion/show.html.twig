@@ -1,0 +1,49 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Promotion</h1>
+
+    <table  class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ promotion.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ promotion.name }}</td>
+            </tr>
+            <tr>
+                <th>Percentage</th>
+                <td>{{ promotion.percentage }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{% if promotion.category is not empty %}
+                        {{ promotion.category.name }}
+                    {% else %}
+                        All Categories
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Fromdate</th>
+                <td>{% if promotion.fromDate %}{{ promotion.fromDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Todate</th>
+                <td>{% if promotion.toDate %}{{ promotion.toDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('admin_promotion_edit', { 'id': promotion.id }) }}" class="btn btn-primary">Edit</a>
+    <div style="float:right">
+    {{ form_start(delete_form) }}
+                <input type="submit" value="Delete" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+    </div>
+
+    <hr>
+    <a href="{{ path('admin_promotion_index') }}" class="btn btn-success">Back to the list</a>
+
+{% endblock %}

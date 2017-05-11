@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Welcome</h1>
+    {% if is_granted ('ROLE_USER') %}
+        {#<a href="{{ path('product_index') }}">Add Product</a>#}
+    {% endif %}
+{% endblock %}

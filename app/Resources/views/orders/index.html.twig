@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Orders list</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Userid</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td><a href="{{ path('orders_show', { 'id': order.id }) }}">{{ order.id }}</a></td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ statuses[order.status] }}</td>
+                <td>{% if order.date %}{{ order.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('orders_view', { 'id': order.id }) }}" class="btn btn-success">show</a>
+                    <a href="{{ path('admin_orders_edit', { 'id': order.id }) }}" class="btn btn-primary">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

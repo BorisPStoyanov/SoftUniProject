@@ -1,0 +1,45 @@
+{% extends 'admin.html.twig' %}
+{% block body %}
+    <h1>Promotions list</h1>
+
+    <a href="{{ path('admin_promotion_new') }}"  class="btn btn-primary">Create a new promotion</a>
+    <hr>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Percentage</th>
+            <th>Category</th>
+            <th>from Date</th>
+            <th>to Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td><a href="{{ path('admin_promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a></td>
+                <td>{{ promotion.name }}</td>
+                <td>{{ promotion.percentage }}</td>
+                <td>{% if promotion.category is not empty %}
+                        {{ promotion.category.name }}
+                    {% else %}
+                        All Categories
+                    {% endif %}
+                </td>
+                <td>{% if promotion.fromDate %}{{ promotion.fromDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if promotion.toDate %}{{ promotion.toDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td class="col-md-1">
+                    <a href="{{ path('admin_promotion_show', { 'id': promotion.id }) }}"
+                       class="btn btn-success">show</a>
+                    <a href="{{ path('admin_promotion_edit', { 'id': promotion.id }) }}"
+                       class="btn btn-primary">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

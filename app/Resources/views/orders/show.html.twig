@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Order</h1>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ order.user.username }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ statuses[order.status] }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if order.date %}{{ order.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for  item in order.items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.product.title }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    {#<a href="{{path('orders_show_for_user', { 'id': order.user.id })}}" class="btn btn-success">View my Orders</a>#}
+
+
+{% endblock %}
