@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% block carousel %}{% endblock %}
+
+    <div class="col-md-5 col-md-offset-2">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <form name="appbundle_user" method="post" action="{{ path('user_check') }}">
+            <div class="form-group">
+                <label class="control-label required" for="username">Userame</label>
+                <input type="text" id="username" name="_username" required="required" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label required" for="password">Password</label>
+                <input type="password" id="password" name="_password" required="required" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" name="login" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
